@@ -1,0 +1,122 @@
+{
+  "benchmark": "regente-coordination",
+  "generated_at": "2026-06-15T22:33:34.351Z",
+  "task": "contended10-dispatch",
+  "n_agents": 10,
+  "trials": 1,
+  "model": "claude-sonnet-4-6",
+  "arms": [
+    "none",
+    "worktrees",
+    "regente"
+  ],
+  "per_trial": {
+    "none": [
+      {
+        "arm": "none",
+        "trial": 1,
+        "agent_errors": [],
+        "wall_s": 123.9,
+        "integ_s": 0,
+        "total_s": 123.9,
+        "tests_pass": true,
+        "ops_ok": 10,
+        "expected": 10,
+        "lost_ops": 0,
+        "merge_conflicts": 0,
+        "coord": {
+          "edit_blocked": 0,
+          "conflict_detected": 0,
+          "claims": 0
+        },
+        "tokens": 5167034,
+        "usd": 3.6933854999999998
+      }
+    ],
+    "worktrees": [
+      {
+        "arm": "worktrees",
+        "trial": 1,
+        "agent_errors": [],
+        "wall_s": 28.5,
+        "integ_s": 287.3,
+        "total_s": 315.9,
+        "tests_pass": true,
+        "ops_ok": 10,
+        "expected": 10,
+        "lost_ops": 0,
+        "merge_conflicts": 9,
+        "coord": {
+          "edit_blocked": 0,
+          "conflict_detected": 0,
+          "claims": 0
+        },
+        "tokens": 3505611,
+        "usd": 3.8888576999999986
+      }
+    ],
+    "regente": [
+      {
+        "arm": "regente",
+        "trial": 1,
+        "agent_errors": [],
+        "wall_s": 730.9,
+        "integ_s": 0,
+        "total_s": 730.9,
+        "tests_pass": true,
+        "ops_ok": 10,
+        "expected": 10,
+        "lost_ops": 0,
+        "merge_conflicts": 0,
+        "coord": {
+          "edit_blocked": 18,
+          "conflict_detected": 211,
+          "claims": 1
+        },
+        "tokens": 82245444,
+        "usd": 30.346131
+      }
+    ]
+  },
+  "summary": {
+    "none": {
+      "arm": "none",
+      "trials": 1,
+      "success_rate": 1,
+      "median_total_s_successful": 123.9,
+      "median_total_s_all": 123.9,
+      "mean_ops_ok": 10,
+      "expected_ops": 10,
+      "mean_lost_ops": 0,
+      "mean_merge_conflicts": 0,
+      "mean_tokens": 5167034,
+      "mean_usd": 3.7
+    },
+    "worktrees": {
+      "arm": "worktrees",
+      "trials": 1,
+      "success_rate": 1,
+      "median_total_s_successful": 315.9,
+      "median_total_s_all": 315.9,
+      "mean_ops_ok": 10,
+      "expected_ops": 10,
+      "mean_lost_ops": 0,
+      "mean_merge_conflicts": 9,
+      "mean_tokens": 3505611,
+      "mean_usd": 3.9
+    },
+    "regente": {
+      "arm": "regente",
+      "trials": 1,
+      "success_rate": 1,
+      "median_total_s_successful": 730.9,
+      "median_total_s_all": 730.9,
+      "mean_ops_ok": 10,
+      "expected_ops": 10,
+      "mean_lost_ops": 0,
+      "mean_merge_conflicts": 0,
+      "mean_tokens": 82245444,
+      "mean_usd": 30.3
+    }
+  }
+}

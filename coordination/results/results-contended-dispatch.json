@@ -1,0 +1,90 @@
+{
+  "benchmark": "regente-coordination",
+  "generated_at": "2026-06-16T15:00:18.451Z",
+  "task": "contended-dispatch",
+  "n_agents": 6,
+  "trials": 3,
+  "model": "claude-sonnet-4-6",
+  "arms": [
+    "regente-merge"
+  ],
+  "per_trial": {
+    "regente-merge": [
+      {
+        "arm": "regente-merge",
+        "trial": 1,
+        "agent_errors": [],
+        "wall_s": 23,
+        "integ_s": 0,
+        "total_s": 23,
+        "tests_pass": true,
+        "ops_ok": 6,
+        "expected": 6,
+        "lost_ops": 0,
+        "merge_conflicts": 0,
+        "coord": {
+          "edit_blocked": 0,
+          "conflict_detected": 0,
+          "claims": 0
+        },
+        "tokens": 515266,
+        "usd": 0.9146724
+      },
+      {
+        "arm": "regente-merge",
+        "trial": 2,
+        "agent_errors": [],
+        "wall_s": 20,
+        "integ_s": 0,
+        "total_s": 20,
+        "tests_pass": true,
+        "ops_ok": 6,
+        "expected": 6,
+        "lost_ops": 0,
+        "merge_conflicts": 0,
+        "coord": {
+          "edit_blocked": 0,
+          "conflict_detected": 0,
+          "claims": 0
+        },
+        "tokens": 556996,
+        "usd": 0.9416835000000001
+      },
+      {
+        "arm": "regente-merge",
+        "trial": 3,
+        "agent_errors": [],
+        "wall_s": 20.8,
+        "integ_s": 0,
+        "total_s": 20.8,
+        "tests_pass": true,
+        "ops_ok": 6,
+        "expected": 6,
+        "lost_ops": 0,
+        "merge_conflicts": 0,
+        "coord": {
+          "edit_blocked": 0,
+          "conflict_detected": 0,
+          "claims": 0
+        },
+        "tokens": 473192,
+        "usd": 0.8850528
+      }
+    ]
+  },
+  "summary": {
+    "regente-merge": {
+      "arm": "regente-merge",
+      "trials": 3,
+      "success_rate": 1,
+      "median_total_s_successful": 20.8,
+      "median_total_s_all": 20.8,
+      "mean_ops_ok": 6,
+      "expected_ops": 6,
+      "mean_lost_ops": 0,
+      "mean_merge_conflicts": 0,
+      "mean_tokens": 515151.3,
+      "mean_usd": 0.9
+    }
+  }
+}

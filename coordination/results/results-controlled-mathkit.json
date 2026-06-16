@@ -1,0 +1,318 @@
+{
+  "benchmark": "regente-coordination",
+  "generated_at": "2026-06-15T19:24:02.083Z",
+  "task": "controlled-mathkit",
+  "n_agents": 3,
+  "trials": 3,
+  "model": "claude-sonnet-4-6",
+  "arms": [
+    "none",
+    "markdown",
+    "worktrees",
+    "regente"
+  ],
+  "per_trial": {
+    "none": [
+      {
+        "arm": "none",
+        "trial": 1,
+        "agent_errors": [],
+        "wall_s": 52.6,
+        "integ_s": 0,
+        "total_s": 52.6,
+        "tests_pass": true,
+        "ops_ok": 3,
+        "expected": 3,
+        "lost_ops": 0,
+        "merge_conflicts": 0,
+        "coord": {
+          "edit_blocked": 0,
+          "conflict_detected": 0,
+          "claims": 0
+        },
+        "tokens": 755138,
+        "usd": 0.7258908
+      },
+      {
+        "arm": "none",
+        "trial": 2,
+        "agent_errors": [],
+        "wall_s": 50.8,
+        "integ_s": 0,
+        "total_s": 50.8,
+        "tests_pass": true,
+        "ops_ok": 3,
+        "expected": 3,
+        "lost_ops": 0,
+        "merge_conflicts": 0,
+        "coord": {
+          "edit_blocked": 0,
+          "conflict_detected": 0,
+          "claims": 0
+        },
+        "tokens": 754945,
+        "usd": 0.7246307999999999
+      },
+      {
+        "arm": "none",
+        "trial": 3,
+        "agent_errors": [],
+        "wall_s": 44.8,
+        "integ_s": 0,
+        "total_s": 44.8,
+        "tests_pass": true,
+        "ops_ok": 3,
+        "expected": 3,
+        "lost_ops": 0,
+        "merge_conflicts": 0,
+        "coord": {
+          "edit_blocked": 0,
+          "conflict_detected": 0,
+          "claims": 0
+        },
+        "tokens": 840088,
+        "usd": 0.7514976
+      }
+    ],
+    "markdown": [
+      {
+        "arm": "markdown",
+        "trial": 1,
+        "agent_errors": [],
+        "wall_s": 92.9,
+        "integ_s": 0,
+        "total_s": 92.9,
+        "tests_pass": true,
+        "ops_ok": 3,
+        "expected": 3,
+        "lost_ops": 0,
+        "merge_conflicts": 0,
+        "coord": {
+          "edit_blocked": 0,
+          "conflict_detected": 0,
+          "claims": 0
+        },
+        "tokens": 1504891,
+        "usd": 1.01271
+      },
+      {
+        "arm": "markdown",
+        "trial": 2,
+        "agent_errors": [],
+        "wall_s": 73.7,
+        "integ_s": 0,
+        "total_s": 73.7,
+        "tests_pass": true,
+        "ops_ok": 3,
+        "expected": 3,
+        "lost_ops": 0,
+        "merge_conflicts": 0,
+        "coord": {
+          "edit_blocked": 0,
+          "conflict_detected": 0,
+          "claims": 0
+        },
+        "tokens": 1377228,
+        "usd": 0.9699696
+      },
+      {
+        "arm": "markdown",
+        "trial": 3,
+        "agent_errors": [],
+        "wall_s": 84.3,
+        "integ_s": 0,
+        "total_s": 84.3,
+        "tests_pass": true,
+        "ops_ok": 3,
+        "expected": 3,
+        "lost_ops": 0,
+        "merge_conflicts": 0,
+        "coord": {
+          "edit_blocked": 0,
+          "conflict_detected": 0,
+          "claims": 0
+        },
+        "tokens": 1505419,
+        "usd": 1.0098885
+      }
+    ],
+    "worktrees": [
+      {
+        "arm": "worktrees",
+        "trial": 1,
+        "agent_errors": [],
+        "wall_s": 25.9,
+        "integ_s": 48.6,
+        "total_s": 74.5,
+        "tests_pass": true,
+        "ops_ok": 3,
+        "expected": 3,
+        "lost_ops": 0,
+        "merge_conflicts": 2,
+        "coord": {
+          "edit_blocked": 0,
+          "conflict_detected": 0,
+          "claims": 0
+        },
+        "tokens": 821391,
+        "usd": 1.0100472
+      },
+      {
+        "arm": "worktrees",
+        "trial": 2,
+        "agent_errors": [],
+        "wall_s": 28.8,
+        "integ_s": 63,
+        "total_s": 91.8,
+        "tests_pass": true,
+        "ops_ok": 3,
+        "expected": 3,
+        "lost_ops": 0,
+        "merge_conflicts": 2,
+        "coord": {
+          "edit_blocked": 0,
+          "conflict_detected": 0,
+          "claims": 0
+        },
+        "tokens": 821854,
+        "usd": 1.0123956
+      },
+      {
+        "arm": "worktrees",
+        "trial": 3,
+        "agent_errors": [],
+        "wall_s": 27.2,
+        "integ_s": 54.7,
+        "total_s": 81.9,
+        "tests_pass": true,
+        "ops_ok": 3,
+        "expected": 3,
+        "lost_ops": 0,
+        "merge_conflicts": 2,
+        "coord": {
+          "edit_blocked": 0,
+          "conflict_detected": 0,
+          "claims": 0
+        },
+        "tokens": 821741,
+        "usd": 1.0123689
+      }
+    ],
+    "regente": [
+      {
+        "arm": "regente",
+        "trial": 1,
+        "agent_errors": [],
+        "wall_s": 168.3,
+        "integ_s": 0,
+        "total_s": 168.3,
+        "tests_pass": true,
+        "ops_ok": 3,
+        "expected": 3,
+        "lost_ops": 0,
+        "merge_conflicts": 0,
+        "coord": {
+          "edit_blocked": 9,
+          "conflict_detected": 6,
+          "claims": 5
+        },
+        "tokens": 4028376,
+        "usd": 2.0458781999999998
+      },
+      {
+        "arm": "regente",
+        "trial": 2,
+        "agent_errors": [],
+        "wall_s": 339.4,
+        "integ_s": 0,
+        "total_s": 339.4,
+        "tests_pass": true,
+        "ops_ok": 3,
+        "expected": 3,
+        "lost_ops": 0,
+        "merge_conflicts": 0,
+        "coord": {
+          "edit_blocked": 6,
+          "conflict_detected": 9,
+          "claims": 7
+        },
+        "tokens": 3772827,
+        "usd": 2.1874295999999998
+      },
+      {
+        "arm": "regente",
+        "trial": 3,
+        "agent_errors": [],
+        "wall_s": 247.8,
+        "integ_s": 0,
+        "total_s": 247.8,
+        "tests_pass": true,
+        "ops_ok": 3,
+        "expected": 3,
+        "lost_ops": 0,
+        "merge_conflicts": 0,
+        "coord": {
+          "edit_blocked": 10,
+          "conflict_detected": 18,
+          "claims": 6
+        },
+        "tokens": 3890096,
+        "usd": 2.0417264999999998
+      }
+    ]
+  },
+  "summary": {
+    "none": {
+      "arm": "none",
+      "trials": 3,
+      "success_rate": 1,
+      "median_total_s_successful": 50.8,
+      "median_total_s_all": 50.8,
+      "mean_ops_ok": 3,
+      "expected_ops": 3,
+      "mean_lost_ops": 0,
+      "mean_merge_conflicts": 0,
+      "mean_tokens": 783390.3,
+      "mean_usd": 0.7
+    },
+    "markdown": {
+      "arm": "markdown",
+      "trials": 3,
+      "success_rate": 1,
+      "median_total_s_successful": 84.3,
+      "median_total_s_all": 84.3,
+      "mean_ops_ok": 3,
+      "expected_ops": 3,
+      "mean_lost_ops": 0,
+      "mean_merge_conflicts": 0,
+      "mean_tokens": 1462512.7,
+      "mean_usd": 1
+    },
+    "worktrees": {
+      "arm": "worktrees",
+      "trials": 3,
+      "success_rate": 1,
+      "median_total_s_successful": 81.9,
+      "median_total_s_all": 81.9,
+      "mean_ops_ok": 3,
+      "expected_ops": 3,
+      "mean_lost_ops": 0,
+      "mean_merge_conflicts": 2,
+      "mean_tokens": 821662,
+      "mean_usd": 1
+    },
+    "regente": {
+      "arm": "regente",
+      "trials": 3,
+      "success_rate": 1,
+      "median_total_s_successful": 247.8,
+      "median_total_s_all": 247.8,
+      "mean_ops_ok": 3,
+      "expected_ops": 3,
+      "mean_lost_ops": 0,
+      "mean_merge_conflicts": 0,
+      "mean_tokens": 3897099.7,
+      "mean_usd": 2.1
+    }
+  }
+}
