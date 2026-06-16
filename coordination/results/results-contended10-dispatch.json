@@ -7,8 +7,7 @@
   "model": "claude-sonnet-4-6",
   "arms": [
     "none",
-    "worktrees",
-    "regente"
+    "worktrees"
   ],
   "per_trial": {
     "none": [
@@ -23,7 +22,7 @@
         "ops_ok": 10,
         "expected": 10,
         "lost_ops": 0,
-        "merge_conflicts": 0,
+        "merge_conflicts": null,
         "coord": {
           "edit_blocked": 0,
           "conflict_detected": 0,
@@ -54,28 +53,6 @@
         "tokens": 3505611,
         "usd": 3.8888576999999986
       }
-    ],
-    "regente": [
-      {
-        "arm": "regente",
-        "trial": 1,
-        "agent_errors": [],
-        "wall_s": 730.9,
-        "integ_s": 0,
-        "total_s": 730.9,
-        "tests_pass": true,
-        "ops_ok": 10,
-        "expected": 10,
-        "lost_ops": 0,
-        "merge_conflicts": 0,
-        "coord": {
-          "edit_blocked": 18,
-          "conflict_detected": 211,
-          "claims": 1
-        },
-        "tokens": 82245444,
-        "usd": 30.346131
-      }
     ]
   },
   "summary": {
@@ -88,7 +65,7 @@
       "mean_ops_ok": 10,
       "expected_ops": 10,
       "mean_lost_ops": 0,
-      "mean_merge_conflicts": 0,
+      "mean_merge_conflicts": null,
       "mean_tokens": 5167034,
       "mean_usd": 3.7
     },
@@ -104,19 +81,7 @@
       "mean_merge_conflicts": 9,
       "mean_tokens": 3505611,
       "mean_usd": 3.9
-    },
-    "regente": {
-      "arm": "regente",
-      "trials": 1,
-      "success_rate": 1,
-      "median_total_s_successful": 730.9,
-      "median_total_s_all": 730.9,
-      "mean_ops_ok": 10,
-      "expected_ops": 10,
-      "mean_lost_ops": 0,
-      "mean_merge_conflicts": 0,
-      "mean_tokens": 82245444,
-      "mean_usd": 30.3
     }
-  }
+  },
+  "note": "Exclusive-lock arm removed; merge_conflicts is git-merge-only (n/a for non-merge arms)."
 }

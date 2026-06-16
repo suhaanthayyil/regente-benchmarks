@@ -8,6 +8,7 @@
   "arms": [
     "none",
     "worktrees",
+    "regente",
     "regente-merge"
   ],
   "per_trial": {
@@ -23,7 +24,7 @@
         "ops_ok": 6,
         "expected": 6,
         "lost_ops": 0,
-        "merge_conflicts": null,
+        "merge_conflicts": 0,
         "coord": {
           "edit_blocked": 0,
           "conflict_detected": 0,
@@ -43,7 +44,7 @@
         "ops_ok": 6,
         "expected": 6,
         "lost_ops": 0,
-        "merge_conflicts": null,
+        "merge_conflicts": 0,
         "coord": {
           "edit_blocked": 0,
           "conflict_detected": 0,
@@ -63,7 +64,7 @@
         "ops_ok": 6,
         "expected": 6,
         "lost_ops": 0,
-        "merge_conflicts": null,
+        "merge_conflicts": 0,
         "coord": {
           "edit_blocked": 0,
           "conflict_detected": 0,
@@ -78,13 +79,10 @@
         "arm": "worktrees",
         "trial": 1,
         "agent_errors": [],
-        "wall_s": 47.2,
-        "integ_s": 180.7,
-        "total_s": 227.9,
+        "wall_s": 29.8,
+        "integ_s": 252,
+        "total_s": 281.9,
         "tests_pass": true,
-        "merge_failed": false,
-        "parse_error": false,
-        "agent_failures": 0,
         "ops_ok": 6,
         "expected": 6,
         "lost_ops": 0,
@@ -94,21 +92,17 @@
           "conflict_detected": 0,
           "claims": 0
         },
-        "tokens": 1883131,
-        "usd": 2.1658686,
-        "attempts": 1
+        "tokens": 2197520,
+        "usd": 2.3256996
       },
       {
         "arm": "worktrees",
         "trial": 2,
         "agent_errors": [],
-        "wall_s": 27.6,
-        "integ_s": 128.2,
-        "total_s": 155.8,
+        "wall_s": 46.3,
+        "integ_s": 197.9,
+        "total_s": 244.1,
         "tests_pass": true,
-        "merge_failed": false,
-        "parse_error": false,
-        "agent_failures": 0,
         "ops_ok": 6,
         "expected": 6,
         "lost_ops": 0,
@@ -118,21 +112,17 @@
           "conflict_detected": 0,
           "claims": 0
         },
-        "tokens": 1840762,
-        "usd": 2.1502401,
-        "attempts": 1
+        "tokens": 1976624,
+        "usd": 2.241387
       },
       {
         "arm": "worktrees",
         "trial": 3,
         "agent_errors": [],
-        "wall_s": 42.2,
-        "integ_s": 145.2,
-        "total_s": 187.4,
+        "wall_s": 40.2,
+        "integ_s": 178.6,
+        "total_s": 218.8,
         "tests_pass": true,
-        "merge_failed": false,
-        "parse_error": false,
-        "agent_failures": 0,
         "ops_ok": 6,
         "expected": 6,
         "lost_ops": 0,
@@ -142,9 +132,70 @@
           "conflict_detected": 0,
           "claims": 0
         },
-        "tokens": 1841380,
-        "usd": 2.152167,
-        "attempts": 1
+        "tokens": 2015141,
+        "usd": 2.2422006
+      }
+    ],
+    "regente": [
+      {
+        "arm": "regente",
+        "trial": 1,
+        "agent_errors": [],
+        "wall_s": 444.5,
+        "integ_s": 0,
+        "total_s": 444.5,
+        "tests_pass": true,
+        "ops_ok": 6,
+        "expected": 6,
+        "lost_ops": 0,
+        "merge_conflicts": 0,
+        "coord": {
+          "edit_blocked": 7,
+          "conflict_detected": 92,
+          "claims": 1
+        },
+        "tokens": 10596621,
+        "usd": 5.032414199999999
+      },
+      {
+        "arm": "regente",
+        "trial": 2,
+        "agent_errors": [],
+        "wall_s": 799.5,
+        "integ_s": 0,
+        "total_s": 799.5,
+        "tests_pass": true,
+        "ops_ok": 6,
+        "expected": 6,
+        "lost_ops": 0,
+        "merge_conflicts": 0,
+        "coord": {
+          "edit_blocked": 8,
+          "conflict_detected": 91,
+          "claims": 3
+        },
+        "tokens": 13471139,
+        "usd": 6.564106799999999
+      },
+      {
+        "arm": "regente",
+        "trial": 3,
+        "agent_errors": [],
+        "wall_s": 474.1,
+        "integ_s": 0,
+        "total_s": 474.1,
+        "tests_pass": true,
+        "ops_ok": 6,
+        "expected": 6,
+        "lost_ops": 0,
+        "merge_conflicts": 0,
+        "coord": {
+          "edit_blocked": 7,
+          "conflict_detected": 169,
+          "claims": 1
+        },
+        "tokens": 17119113,
+        "usd": 7.566128399999999
       }
     ],
     "regente-merge": [
@@ -159,7 +210,7 @@
         "ops_ok": 6,
         "expected": 6,
         "lost_ops": 0,
-        "merge_conflicts": null,
+        "merge_conflicts": 0,
         "coord": {
           "edit_blocked": 0,
           "conflict_detected": 0,
@@ -179,7 +230,7 @@
         "ops_ok": 6,
         "expected": 6,
         "lost_ops": 0,
-        "merge_conflicts": null,
+        "merge_conflicts": 0,
         "coord": {
           "edit_blocked": 0,
           "conflict_detected": 0,
@@ -199,7 +250,7 @@
         "ops_ok": 6,
         "expected": 6,
         "lost_ops": 0,
-        "merge_conflicts": null,
+        "merge_conflicts": 0,
         "coord": {
           "edit_blocked": 0,
           "conflict_detected": 0,
@@ -220,7 +271,7 @@
       "mean_ops_ok": 6,
       "expected_ops": 6,
       "mean_lost_ops": 0,
-      "mean_merge_conflicts": null,
+      "mean_merge_conflicts": 0,
       "mean_tokens": 1836089.7,
       "mean_usd": 1.5
     },
@@ -228,19 +279,27 @@
       "arm": "worktrees",
       "trials": 3,
       "success_rate": 1,
-      "median_total_s_successful": 187.4,
-      "median_total_s_all": 187.4,
-      "median_wall_s_successful": 42.2,
-      "median_integ_s_successful": 145.2,
+      "median_total_s_successful": 244.1,
+      "median_total_s_all": 244.1,
       "mean_ops_ok": 6,
       "expected_ops": 6,
       "mean_lost_ops": 0,
       "mean_merge_conflicts": 5,
-      "merge_failures": 0,
-      "dirty_trials": 0,
-      "total_attempts": 3,
-      "mean_tokens": 1855091,
-      "mean_usd": 2.2
+      "mean_tokens": 2063095,
+      "mean_usd": 2.3
+    },
+    "regente": {
+      "arm": "regente",
+      "trials": 3,
+      "success_rate": 1,
+      "median_total_s_successful": 474.1,
+      "median_total_s_all": 474.1,
+      "mean_ops_ok": 6,
+      "expected_ops": 6,
+      "mean_lost_ops": 0,
+      "mean_merge_conflicts": 0,
+      "mean_tokens": 13728957.7,
+      "mean_usd": 6.4
     },
     "regente-merge": {
       "arm": "regente-merge",
@@ -251,11 +310,9 @@
       "mean_ops_ok": 6,
       "expected_ops": 6,
       "mean_lost_ops": 0,
-      "mean_merge_conflicts": null,
+      "mean_merge_conflicts": 0,
       "mean_tokens": 487146,
       "mean_usd": 0.9
     }
-  },
-  "note": "Exclusive-lock arm removed (serialization; superseded by decomposition). merge_conflicts is a git-merge-only counter (n/a for non-merge arms) and N-1 by construction within worktrees. Raw 4-arm run preserved in results-contended-dispatch.4arm-raw.json.",
-  "worktrees_rerun": "fixed-resolver worktrees re-run spliced in (clean); none + regente-merge kept from the prior clean baseline (unaffected by the resolver fix). Same task/model/machine."
+  }
 }

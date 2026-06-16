@@ -8,8 +8,7 @@
   "arms": [
     "none",
     "markdown",
-    "worktrees",
-    "regente"
+    "worktrees"
   ],
   "per_trial": {
     "none": [
@@ -24,7 +23,7 @@
         "ops_ok": 3,
         "expected": 3,
         "lost_ops": 0,
-        "merge_conflicts": 0,
+        "merge_conflicts": null,
         "coord": {
           "edit_blocked": 0,
           "conflict_detected": 0,
@@ -44,7 +43,7 @@
         "ops_ok": 3,
         "expected": 3,
         "lost_ops": 0,
-        "merge_conflicts": 0,
+        "merge_conflicts": null,
         "coord": {
           "edit_blocked": 0,
           "conflict_detected": 0,
@@ -64,7 +63,7 @@
         "ops_ok": 3,
         "expected": 3,
         "lost_ops": 0,
-        "merge_conflicts": 0,
+        "merge_conflicts": null,
         "coord": {
           "edit_blocked": 0,
           "conflict_detected": 0,
@@ -86,7 +85,7 @@
         "ops_ok": 3,
         "expected": 3,
         "lost_ops": 0,
-        "merge_conflicts": 0,
+        "merge_conflicts": null,
         "coord": {
           "edit_blocked": 0,
           "conflict_detected": 0,
@@ -106,7 +105,7 @@
         "ops_ok": 3,
         "expected": 3,
         "lost_ops": 0,
-        "merge_conflicts": 0,
+        "merge_conflicts": null,
         "coord": {
           "edit_blocked": 0,
           "conflict_detected": 0,
@@ -126,7 +125,7 @@
         "ops_ok": 3,
         "expected": 3,
         "lost_ops": 0,
-        "merge_conflicts": 0,
+        "merge_conflicts": null,
         "coord": {
           "edit_blocked": 0,
           "conflict_detected": 0,
@@ -197,68 +196,6 @@
         "tokens": 821741,
         "usd": 1.0123689
       }
-    ],
-    "regente": [
-      {
-        "arm": "regente",
-        "trial": 1,
-        "agent_errors": [],
-        "wall_s": 168.3,
-        "integ_s": 0,
-        "total_s": 168.3,
-        "tests_pass": true,
-        "ops_ok": 3,
-        "expected": 3,
-        "lost_ops": 0,
-        "merge_conflicts": 0,
-        "coord": {
-          "edit_blocked": 9,
-          "conflict_detected": 6,
-          "claims": 5
-        },
-        "tokens": 4028376,
-        "usd": 2.0458781999999998
-      },
-      {
-        "arm": "regente",
-        "trial": 2,
-        "agent_errors": [],
-        "wall_s": 339.4,
-        "integ_s": 0,
-        "total_s": 339.4,
-        "tests_pass": true,
-        "ops_ok": 3,
-        "expected": 3,
-        "lost_ops": 0,
-        "merge_conflicts": 0,
-        "coord": {
-          "edit_blocked": 6,
-          "conflict_detected": 9,
-          "claims": 7
-        },
-        "tokens": 3772827,
-        "usd": 2.1874295999999998
-      },
-      {
-        "arm": "regente",
-        "trial": 3,
-        "agent_errors": [],
-        "wall_s": 247.8,
-        "integ_s": 0,
-        "total_s": 247.8,
-        "tests_pass": true,
-        "ops_ok": 3,
-        "expected": 3,
-        "lost_ops": 0,
-        "merge_conflicts": 0,
-        "coord": {
-          "edit_blocked": 10,
-          "conflict_detected": 18,
-          "claims": 6
-        },
-        "tokens": 3890096,
-        "usd": 2.0417264999999998
-      }
     ]
   },
   "summary": {
@@ -271,7 +208,7 @@
       "mean_ops_ok": 3,
       "expected_ops": 3,
       "mean_lost_ops": 0,
-      "mean_merge_conflicts": 0,
+      "mean_merge_conflicts": null,
       "mean_tokens": 783390.3,
       "mean_usd": 0.7
     },
@@ -284,7 +221,7 @@
       "mean_ops_ok": 3,
       "expected_ops": 3,
       "mean_lost_ops": 0,
-      "mean_merge_conflicts": 0,
+      "mean_merge_conflicts": null,
       "mean_tokens": 1462512.7,
       "mean_usd": 1
     },
@@ -300,19 +237,7 @@
       "mean_merge_conflicts": 2,
       "mean_tokens": 821662,
       "mean_usd": 1
-    },
-    "regente": {
-      "arm": "regente",
-      "trials": 3,
-      "success_rate": 1,
-      "median_total_s_successful": 247.8,
-      "median_total_s_all": 247.8,
-      "mean_ops_ok": 3,
-      "expected_ops": 3,
-      "mean_lost_ops": 0,
-      "mean_merge_conflicts": 0,
-      "mean_tokens": 3897099.7,
-      "mean_usd": 2.1
     }
-  }
+  },
+  "note": "Exclusive-lock arm removed; merge_conflicts is git-merge-only (n/a for non-merge arms)."
 }

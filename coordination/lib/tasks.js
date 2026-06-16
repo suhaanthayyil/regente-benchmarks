@@ -33,6 +33,8 @@ const CONTROLLED = {
       `- CRITICAL: do not remove or overwrite any other operation's import or registration. After your edit, mathkit/registry.py must still contain every registration that was there before, plus yours.`,
     ].join("\n");
   },
+  resolverPrompt:
+    "This git repo is mid-merge with conflicts. Resolve ALL conflicts so that EVERY math operation stays registered in mathkit/registry.py and exported in mathkit/__init__.py (keep all imports and register() calls from both sides). Remove conflict markers. Then run `git add -A`. Do not commit.",
 };
 
 const CONTENDED = {
@@ -68,6 +70,8 @@ const CONTENDED = {
   },
   // Deterministic engine merge: assemble the dispatcher from the fragments. Pure code, no
   // LLM, no agent — this is what Regente's engine would do for a commutative/additive region.
+  resolverPrompt:
+    "This git repo is mid-merge with conflicts in mathkit/dispatch.py (the shared command dispatcher). Resolve ALL conflicts so that EVERY command survives: the HANDLERS list must keep every command entry from BOTH sides, and route() must keep every `elif cmd == ...` branch from BOTH sides. Remove all conflict markers. Then run `git add -A`. Do not commit.",
   mergeFragments(dir) {
     const opsDir = path.join(dir, "mathkit", "ops");
     fs.mkdirSync(opsDir, { recursive: true });
@@ -118,6 +122,7 @@ const CONTENDED10 = {
   body(sub) {
     return CONTENDED.body(sub);
   },
+  resolverPrompt: CONTENDED.resolverPrompt,
 };
 
 // Specification-gap task: the producer alone decides the interface (FIELDS); consumers must
