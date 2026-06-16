@@ -1,18 +1,19 @@
 # Coordination benchmark — internal findings
 
 ## TL;DR — locks lose, merge wins
-On the 6-agent contended task (same goal, same grader, 3 trials each):
+On the 6-agent contended task (same goal, same grader, full 3-trial run to completion):
 
 | Approach | Median time | Merge conflicts | Correct |
 |---|---|---|---|
-| No-coordination | 63s | 0 | 100% |
-| Git worktrees | 203s | 5 | 100% |
-| Regente today (exclusive lock) | ~410s | 0 | 100% |
-| **Regente engine-merge (new)** | **20.8s** | **0** | **100%** |
+| No-coordination | 80.8s | 0 | 100% |
+| Git worktrees | 244s | 5 | 100% |
+| Regente today (exclusive lock) | 474s | 0 | 100% |
+| **Regente engine-merge (new)** | **19.4s** | **0** | **100%** |
 
 **The exclusive-lock model serializes and is the slowest. The fix is to MERGE commutative edits
-instead of locking them: ~10x faster than worktrees, ~20x faster than the lock, ~3x faster than
-no-coordination, zero conflicts.** Mechanism: each agent writes its own fragment in parallel (no
+instead of locking them: ~12x faster than worktrees, ~24x faster than the lock, ~4x faster than
+no-coordination, zero conflicts.** (An earlier 3-trial run gave 63 / 203 / 410 / 20.8s — same
+pattern; absolute times vary with machine load, the ratios hold.) Mechanism: each agent writes its own fragment in parallel (no
 contention, no lock); the engine assembles the result deterministically (no LLM merge). This is
 the CRDT/commutative-operations idea. It wins on the additive pattern (registries, routes,
 exports, DI, config) — the common multi-agent case — not on arbitrary same-line refactors.

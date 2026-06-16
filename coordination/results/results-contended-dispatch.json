@@ -1,22 +1,211 @@
 {
   "benchmark": "regente-coordination",
-  "generated_at": "2026-06-16T15:00:18.451Z",
+  "generated_at": "2026-06-16T16:25:49.644Z",
   "task": "contended-dispatch",
   "n_agents": 6,
   "trials": 3,
   "model": "claude-sonnet-4-6",
   "arms": [
+    "none",
+    "worktrees",
+    "regente",
     "regente-merge"
   ],
   "per_trial": {
+    "none": [
+      {
+        "arm": "none",
+        "trial": 1,
+        "agent_errors": [],
+        "wall_s": 180,
+        "integ_s": 0,
+        "total_s": 180,
+        "tests_pass": true,
+        "ops_ok": 6,
+        "expected": 6,
+        "lost_ops": 0,
+        "merge_conflicts": 0,
+        "coord": {
+          "edit_blocked": 0,
+          "conflict_detected": 0,
+          "claims": 0
+        },
+        "tokens": 1895092,
+        "usd": 1.5569127
+      },
+      {
+        "arm": "none",
+        "trial": 2,
+        "agent_errors": [],
+        "wall_s": 80.8,
+        "integ_s": 0,
+        "total_s": 80.8,
+        "tests_pass": true,
+        "ops_ok": 6,
+        "expected": 6,
+        "lost_ops": 0,
+        "merge_conflicts": 0,
+        "coord": {
+          "edit_blocked": 0,
+          "conflict_detected": 0,
+          "claims": 0
+        },
+        "tokens": 1722112,
+        "usd": 1.4948874
+      },
+      {
+        "arm": "none",
+        "trial": 3,
+        "agent_errors": [],
+        "wall_s": 59.4,
+        "integ_s": 0,
+        "total_s": 59.4,
+        "tests_pass": true,
+        "ops_ok": 6,
+        "expected": 6,
+        "lost_ops": 0,
+        "merge_conflicts": 0,
+        "coord": {
+          "edit_blocked": 0,
+          "conflict_detected": 0,
+          "claims": 0
+        },
+        "tokens": 1891065,
+        "usd": 1.5516543
+      }
+    ],
+    "worktrees": [
+      {
+        "arm": "worktrees",
+        "trial": 1,
+        "agent_errors": [],
+        "wall_s": 29.8,
+        "integ_s": 252,
+        "total_s": 281.9,
+        "tests_pass": true,
+        "ops_ok": 6,
+        "expected": 6,
+        "lost_ops": 0,
+        "merge_conflicts": 5,
+        "coord": {
+          "edit_blocked": 0,
+          "conflict_detected": 0,
+          "claims": 0
+        },
+        "tokens": 2197520,
+        "usd": 2.3256996
+      },
+      {
+        "arm": "worktrees",
+        "trial": 2,
+        "agent_errors": [],
+        "wall_s": 46.3,
+        "integ_s": 197.9,
+        "total_s": 244.1,
+        "tests_pass": true,
+        "ops_ok": 6,
+        "expected": 6,
+        "lost_ops": 0,
+        "merge_conflicts": 5,
+        "coord": {
+          "edit_blocked": 0,
+          "conflict_detected": 0,
+          "claims": 0
+        },
+        "tokens": 1976624,
+        "usd": 2.241387
+      },
+      {
+        "arm": "worktrees",
+        "trial": 3,
+        "agent_errors": [],
+        "wall_s": 40.2,
+        "integ_s": 178.6,
+        "total_s": 218.8,
+        "tests_pass": true,
+        "ops_ok": 6,
+        "expected": 6,
+        "lost_ops": 0,
+        "merge_conflicts": 5,
+        "coord": {
+          "edit_blocked": 0,
+          "conflict_detected": 0,
+          "claims": 0
+        },
+        "tokens": 2015141,
+        "usd": 2.2422006
+      }
+    ],
+    "regente": [
+      {
+        "arm": "regente",
+        "trial": 1,
+        "agent_errors": [],
+        "wall_s": 444.5,
+        "integ_s": 0,
+        "total_s": 444.5,
+        "tests_pass": true,
+        "ops_ok": 6,
+        "expected": 6,
+        "lost_ops": 0,
+        "merge_conflicts": 0,
+        "coord": {
+          "edit_blocked": 7,
+          "conflict_detected": 92,
+          "claims": 1
+        },
+        "tokens": 10596621,
+        "usd": 5.032414199999999
+      },
+      {
+        "arm": "regente",
+        "trial": 2,
+        "agent_errors": [],
+        "wall_s": 799.5,
+        "integ_s": 0,
+        "total_s": 799.5,
+        "tests_pass": true,
+        "ops_ok": 6,
+        "expected": 6,
+        "lost_ops": 0,
+        "merge_conflicts": 0,
+        "coord": {
+          "edit_blocked": 8,
+          "conflict_detected": 91,
+          "claims": 3
+        },
+        "tokens": 13471139,
+        "usd": 6.564106799999999
+      },
+      {
+        "arm": "regente",
+        "trial": 3,
+        "agent_errors": [],
+        "wall_s": 474.1,
+        "integ_s": 0,
+        "total_s": 474.1,
+        "tests_pass": true,
+        "ops_ok": 6,
+        "expected": 6,
+        "lost_ops": 0,
+        "merge_conflicts": 0,
+        "coord": {
+          "edit_blocked": 7,
+          "conflict_detected": 169,
+          "claims": 1
+        },
+        "tokens": 17119113,
+        "usd": 7.566128399999999
+      }
+    ],
     "regente-merge": [
       {
         "arm": "regente-merge",
         "trial": 1,
         "agent_errors": [],
-        "wall_s": 23,
+        "wall_s": 22.2,
         "integ_s": 0,
-        "total_s": 23,
+        "total_s": 22.2,
         "tests_pass": true,
         "ops_ok": 6,
         "expected": 6,
@@ -27,16 +216,16 @@
           "conflict_detected": 0,
           "claims": 0
         },
-        "tokens": 515266,
-        "usd": 0.9146724
+        "tokens": 514913,
+        "usd": 0.9130335
       },
       {
         "arm": "regente-merge",
         "trial": 2,
         "agent_errors": [],
-        "wall_s": 20,
+        "wall_s": 19.4,
         "integ_s": 0,
-        "total_s": 20,
+        "total_s": 19.4,
         "tests_pass": true,
         "ops_ok": 6,
         "expected": 6,
@@ -47,16 +236,16 @@
           "conflict_detected": 0,
           "claims": 0
         },
-        "tokens": 556996,
-        "usd": 0.9416835000000001
+        "tokens": 473519,
+        "usd": 0.889866
       },
       {
         "arm": "regente-merge",
         "trial": 3,
         "agent_errors": [],
-        "wall_s": 20.8,
+        "wall_s": 17,
         "integ_s": 0,
-        "total_s": 20.8,
+        "total_s": 17,
         "tests_pass": true,
         "ops_ok": 6,
         "expected": 6,
@@ -67,23 +256,62 @@
           "conflict_detected": 0,
           "claims": 0
         },
-        "tokens": 473192,
-        "usd": 0.8850528
+        "tokens": 473006,
+        "usd": 0.8845109999999999
       }
     ]
   },
   "summary": {
-    "regente-merge": {
-      "arm": "regente-merge",
+    "none": {
+      "arm": "none",
       "trials": 3,
       "success_rate": 1,
-      "median_total_s_successful": 20.8,
-      "median_total_s_all": 20.8,
+      "median_total_s_successful": 80.8,
+      "median_total_s_all": 80.8,
       "mean_ops_ok": 6,
       "expected_ops": 6,
       "mean_lost_ops": 0,
       "mean_merge_conflicts": 0,
-      "mean_tokens": 515151.3,
+      "mean_tokens": 1836089.7,
+      "mean_usd": 1.5
+    },
+    "worktrees": {
+      "arm": "worktrees",
+      "trials": 3,
+      "success_rate": 1,
+      "median_total_s_successful": 244.1,
+      "median_total_s_all": 244.1,
+      "mean_ops_ok": 6,
+      "expected_ops": 6,
+      "mean_lost_ops": 0,
+      "mean_merge_conflicts": 5,
+      "mean_tokens": 2063095,
+      "mean_usd": 2.3
+    },
+    "regente": {
+      "arm": "regente",
+      "trials": 3,
+      "success_rate": 1,
+      "median_total_s_successful": 474.1,
+      "median_total_s_all": 474.1,
+      "mean_ops_ok": 6,
+      "expected_ops": 6,
+      "mean_lost_ops": 0,
+      "mean_merge_conflicts": 0,
+      "mean_tokens": 13728957.7,
+      "mean_usd": 6.4
+    },
+    "regente-merge": {
+      "arm": "regente-merge",
+      "trials": 3,
+      "success_rate": 1,
+      "median_total_s_successful": 19.4,
+      "median_total_s_all": 19.4,
+      "mean_ops_ok": 6,
+      "expected_ops": 6,
+      "mean_lost_ops": 0,
+      "mean_merge_conflicts": 0,
+      "mean_tokens": 487146,
       "mean_usd": 0.9
     }
   }

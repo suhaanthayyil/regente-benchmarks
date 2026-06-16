@@ -37,7 +37,7 @@ function parseArgs(argv) {
     arms: get("--arms", "none,markdown,worktrees,regente").split(","),
     task: get("--task", "controlled"),
     timeoutMs: Number(get("--timeout", 900000)),
-    keep: args.includes("--keep"),
+    keep: a.includes("--keep"),
   };
 }
 
