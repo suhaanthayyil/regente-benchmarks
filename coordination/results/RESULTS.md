@@ -1,5 +1,45 @@
 # Coordination benchmark — internal findings
 
+## 2026-06-17 UPDATE — the merge claim, built into the real engine + measured
+
+We built the `merge` claim into `server/regente-core.js` (merge claims coexist -> additive
+work runs parallel; exclusive claims order genuine same-symbol conflicts) and re-ran on the
+REAL engine (hook + MCP + claims), NOT a script. Task `mixed`: 6 agents add commands to one
+shared dispatch.py (additive) + 2 of them edit the SAME `_validate` function (genuine
+conflict). Fair interleaved run (3 trials round-robin, same rate-limit conditions per arm),
+raw data `results-mixed-dispatch.json`:
+
+| Arm | Median time | Merge-resolution tokens | $/run | Correct |
+|---|---|---|---|---|
+| No coordination | **72.3s** | 0 | **$1.70** | 100% |
+| Git worktrees | 209.7s | ~1.03M | $2.30 | 100% |
+| **Regente (merge claim)** | **166.5s** | **0** | $3.00 | 100% |
+
+**Honest verdict (the data, no spin):**
+- The merge claim FIXED the old lock: ~474s (serialized the whole file) -> 166.5s. Regente is
+  now **faster than git worktrees (166.5 vs 209.7)** and runs **zero merge-resolution tokens**
+  (worktrees burned ~1.03M having an LLM resolve conflicts). 100% correct, 0 edit-blocks,
+  signed audit log; the engine produced a real correct merge (all commands + BOTH _validate
+  guards survived) via merge-claims + an exclusive _validate claim with auto-handoff (the 2nd
+  writer re-read the 1st's guard).
+- **Regente does NOT beat no-coordination, and does NOT use fewer tokens.** No-coordination
+  self-heals even on the conflict (agents re-read before writing) and is fastest (72s) AND
+  cheapest ($1.70). And coordination has its OWN token cost: Regente was the MOST expensive
+  arm ($3.00) because its agents spend extra turns claiming/handing off. The merge claim
+  removes the worktree merge tax but the coordination protocol costs more than that tax saved
+  on this task.
+- **Position (unchanged, now real-engine-measured):** Regente's value is removing the
+  git-worktree merge tax + enforced/audited/contention-free fleet on one tree (faster than
+  worktrees, no merge cost, no lost work, signed log). It is NOT a way to out-run or undercut
+  free-running agents on a shared tree (they self-heal). A "Regente is faster AND cheaper than
+  everything" claim is refuted by this benchmark and must not be made.
+- Engine fix landed in `regente-core.js` (commit 8c6d862): `isMergeMode`/`claimsContend`/
+  `claimBlocksEdit` + `checkEditAllowed`; `tests/merge_claim_test.js`; MCP `mode:"merge"`.
+  Open follow-up: trim coordination token overhead (drop join/poll/explicit-release turns) to
+  try to get under the worktree token cost too.
+
+---
+
 ## TL;DR — no coordination self-heals; worktrees pay a merge tax; decompose and there is nothing to merge
 
 The question: when several coding agents work one repo at once, does *coordinating* them reduce the

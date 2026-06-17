@@ -15,9 +15,10 @@ const fs = require("fs");
 const path = require("path");
 
 // Standalone public mirror: the model/meter/store libs are vendored under ./lib, and
-// prices.json sits alongside this file. The optional Regente engine (used only by the
-// deprecated exclusive-lock arm, which is not part of the published comparison) is loaded
-// lazily and degrades gracefully when absent.
+// prices.json sits alongside this file. The Regente engine (used by the `regente` arm via
+// the hook + MCP) is part of the Regente product (regente.dev), not vendored here; it is
+// loaded lazily so the `none` and `worktrees` arms run with no Regente install, and the
+// `regente` arm runs when Regente is installed alongside this checkout.
 const cli = require("./lib/claude-cli");
 const meter = require("./lib/meter");
 const store = require("./lib/store");
@@ -25,7 +26,7 @@ const ws = require("./lib/workspace");
 const { TASKS, buildPrompt } = require("./lib/tasks");
 
 let core = null;
-try { core = require(require("path").join(__dirname, "..", "..", "server", "regente-core")); } catch (_e) { /* lock arm unavailable in the standalone repo */ }
+try { core = require(require("path").join(__dirname, "..", "..", "server", "regente-core")); } catch (_e) { /* engine absent in the standalone repo */ }
 
 const HERE = __dirname;
 const REPO = path.join(__dirname, "..", "..");
@@ -45,6 +46,7 @@ function parseArgs(argv) {
     timeoutMs: Number(get("--timeout", 900000)),
     maxAttempts: Number(get("--max-attempts", 4)),
     retryCooldownMs: Number(get("--retry-cooldown", 30000)),
+    interleave: a.includes("--interleave"),
     keep: a.includes("--keep"),
   };
 }
@@ -128,7 +130,15 @@ async function runTrial(arm, task, opts, trialIdx) {
       const prompt = arm === "regente-merge" && task.fragmentBody
         ? task.fragmentBody(s)
         : buildPrompt(task, s, arm === "none" ? "none" : arm, `${s.name}-agent`);
-      return cli.runClaude({ ...agentOpts(arm, { model: opts.model, cwd, timeoutMs: opts.timeoutMs, mcpConfig }), prompt });
+      // Pin the agent identity so the PreToolUse hook attributes this process's EDITS to
+      // the same named agent that holds the claim (REGENTE_AGENT_ID drives BOTH the hook's
+      // agentId() and the MCP's ENV_AGENT). Without it the hook falls back to a generated
+      // session id that never matches the claim -> every edit reads "unclaimed" -> blocked
+      // -> the agent thrashes (the 16-block / 747s failure mode). Regente arm only.
+      const env = arm === "regente"
+        ? { REGENTE_AGENT_ID: `${s.name}-agent`, REGENTE_SESSION_ID: `bench-${s.name}-${trialIdx}` }
+        : undefined;
+      return cli.runClaude({ ...agentOpts(arm, { model: opts.model, cwd, timeoutMs: opts.timeoutMs, mcpConfig }), prompt, env });
     }));
     const agentMs = Date.now() - t0;
     agentResults.forEach((r, i) => { if (!r.ok) result.agent_errors.push(`${subtasks[i].name}:${r.error}`); });
@@ -138,6 +148,7 @@ async function runTrial(arm, task, opts, trialIdx) {
     // merge_conflicts is a git-merge-only counter: a real `git merge` happens ONLY in the
     // worktrees arm. Other arms never run one, so they report null (n/a), not a misleading 0.
     let mergeConflicts = null;
+    const resolverResults = []; // LLM merge-resolution calls (worktrees only) — metered separately
     if (arm === "worktrees") {
       mergeConflicts = 0;
       const ti = Date.now();
@@ -158,6 +169,7 @@ async function runTrial(arm, task, opts, trialIdx) {
           });
           if (!resolver.ok) result.agent_errors.push(`resolver:${resolver.error}`);
           agentResults.push(resolver);
+          resolverResults.push(resolver);
           // Verify the resolver actually CLEARED the conflict before staging/committing.
           // ls-files -u lists unmerged index entries; git grep finds leftover conflict
           // markers in tracked files (checked BEFORE `git add -A`, which would mark a
@@ -219,6 +231,10 @@ async function runTrial(arm, task, opts, trialIdx) {
     result.coord = coord;
     result.tokens = tok.tokens;
     result.usd = tok.usd;
+    // Merge-resolution tokens: the LLM cost of resolving git conflicts (worktrees only).
+    // Regente and no-coordination never run a resolver, so this is 0 for them — the honest
+    // "merge tax" in tokens, separable from the coding tokens every arm spends.
+    result.merge_tokens = tokensOf(resolverResults).tokens;
   } finally {
     if (opts.keep) {
       console.log(`   [kept] ${dir}`);
@@ -254,6 +270,7 @@ function summarize(arm, trials) {
     dirty_trials: trials.filter((t) => t.agent_failures > 0).length,
     total_attempts: trials.reduce((a, t) => a + (t.attempts || 1), 0),
     mean_tokens: mean(trials.map((t) => t.tokens)),
+    mean_merge_tokens: mean(trials.map((t) => t.merge_tokens || 0)),
     mean_usd: mean(trials.map((t) => t.usd)),
   };
 }
@@ -265,21 +282,28 @@ async function main() {
   console.log(`[coord] task=${task.id} agents=${opts.agents} trials=${opts.trials} model=${opts.model} arms=${opts.arms.join(",")}`);
 
   const byArm = {};
-  for (const arm of opts.arms) {
-    byArm[arm] = [];
-    for (let t = 1; t <= opts.trials; t++) {
-      let r = null;
-      for (let attempt = 1; attempt <= opts.maxAttempts; attempt++) {
-        console.log(`[coord] ${arm} trial ${t}/${opts.trials}${attempt > 1 ? ` (attempt ${attempt}/${opts.maxAttempts})` : ""} ...`);
-        r = await runTrial(arm, task, opts, t);
-        r.attempts = attempt;
-        if (!r.agent_failures) break; // clean: no infra/CLI errors -> a valid measurement
-        console.log(`   !! infra contamination: ${r.agent_failures} agent CLI error(s) [${r.agent_errors.join(";")}] -> discard & retry after ${Math.round(opts.retryCooldownMs / 1000)}s cooldown`);
-        if (attempt < opts.maxAttempts) await sleep(opts.retryCooldownMs);
-      }
-      byArm[arm].push(r);
-      console.log(`   -> total ${r.total_s}s (wall ${r.wall_s} + integ ${r.integ_s}) | tests_pass=${r.tests_pass} | ops ${r.ops_ok}/${r.expected} | lost ${r.lost_ops} | merge_conflicts ${r.merge_conflicts == null ? "n/a" : r.merge_conflicts}${r.merge_failed ? " | MERGE_FAILED" : ""}${r.parse_error ? " | PARSE_ERROR" : ""}${r.agent_failures ? ` | STILL_DIRTY(${r.agent_failures}) after ${r.attempts} attempts` : ""}${arm === "regente" ? ` | blocked ${r.coord.edit_blocked} claims ${r.coord.claims}` : ""}`);
+  for (const arm of opts.arms) byArm[arm] = [];
+  // One trial of one arm, with discard+retry on infra (rate-limit) contamination.
+  const runOne = async (arm, t) => {
+    let r = null;
+    for (let attempt = 1; attempt <= opts.maxAttempts; attempt++) {
+      console.log(`[coord] ${arm} trial ${t}/${opts.trials}${attempt > 1 ? ` (attempt ${attempt}/${opts.maxAttempts})` : ""} ...`);
+      r = await runTrial(arm, task, opts, t);
+      r.attempts = attempt;
+      if (!r.agent_failures) break; // clean: no infra/CLI errors -> a valid measurement
+      console.log(`   !! infra contamination: ${r.agent_failures} agent CLI error(s) [${r.agent_errors.join(";")}] -> discard & retry after ${Math.round(opts.retryCooldownMs / 1000)}s cooldown`);
+      if (attempt < opts.maxAttempts) await sleep(opts.retryCooldownMs);
     }
+    byArm[arm].push(r);
+    console.log(`   -> total ${r.total_s}s (wall ${r.wall_s} + integ ${r.integ_s}) | tests_pass=${r.tests_pass} | ops ${r.ops_ok}/${r.expected} | lost ${r.lost_ops} | merge_conflicts ${r.merge_conflicts == null ? "n/a" : r.merge_conflicts}${r.merge_failed ? " | MERGE_FAILED" : ""}${r.parse_error ? " | PARSE_ERROR" : ""}${r.agent_failures ? ` | STILL_DIRTY(${r.agent_failures}) after ${r.attempts} attempts` : ""}${arm === "regente" ? ` | blocked ${r.coord.edit_blocked} claims ${r.coord.claims}` : ""}`);
+  };
+  // --interleave runs trials round-robin (round 1: every arm, round 2: every arm, ...) so
+  // every arm experiences the SAME single-account rate-limit depletion per round — the only
+  // fair way to compare wall-clock when the budget drains over a run. Default is by-arm.
+  if (opts.interleave) {
+    for (let t = 1; t <= opts.trials; t++) for (const arm of opts.arms) await runOne(arm, t);
+  } else {
+    for (const arm of opts.arms) for (let t = 1; t <= opts.trials; t++) await runOne(arm, t);
   }
 
   const summaries = {};

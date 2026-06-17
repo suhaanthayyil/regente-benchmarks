@@ -4,6 +4,32 @@ Reproducible benchmarks of multi-agent coding coordination, from the team buildi
 [Regente](https://regente.dev) (a local-first, vendor-neutral coordination layer for
 already-running coding agents).
 
+## 2026-06-17 — the merge claim, built into the real engine
+
+We built a `merge` claim into Regente's engine (additive regions coexist and run in parallel;
+genuine same-symbol conflicts are ordered) and re-ran on the REAL engine (hook + MCP + claims),
+not a script. Task `mixed`: 6 agents add commands to one shared `dispatch.py` (additive) + 2 of
+them edit the SAME `_validate` function (a genuine conflict). Fair interleaved run, 3 trials
+round-robin (`coordination/results/results-mixed-dispatch.json`):
+
+| Approach | Median time | Merge-resolution tokens | Cost/run | Correct |
+|---|---|---|---|---|
+| No coordination | **72.3s** | 0 | **$1.70** | 100% |
+| Git worktrees | 209.7s | ~1.03M | $2.30 | 100% |
+| **Regente (merge claim)** | **166.5s** | **0** | $3.00 | 100% |
+
+- The merge claim fixed the old exclusive lock (~474s, it serialized the whole file -> 166.5s).
+  Regente is now **faster than git worktrees** with **zero merge-resolution tokens** (worktrees
+  burned ~1M tokens having an LLM resolve conflicts), 100% correct, 0 edit-blocks, audited.
+- Honest limits (the data, no spin): **no coordination self-heals** even on the conflict and is
+  fastest + cheapest; and coordination has its own token cost, so Regente was the **most
+  expensive** arm in total $. The merge claim removes the worktree merge tax but the coordination
+  protocol costs more than that tax saved here. Regente's value is removing the worktree merge tax
+  + an enforced/audited fleet on one tree, NOT out-running or undercutting free-running agents.
+- Reproducibility: `none` and `worktrees` run standalone (below). The `regente` arm drives the
+  real Regente engine (hook + MCP), so it requires Regente installed alongside the checkout
+  (see regente.dev); the raw result JSON + write-up are included here for transparency either way.
+
 ## coordination/ — how should multiple agents share one repo?
 
 Several coding agents work on one repository at the same time. How should they share it so the

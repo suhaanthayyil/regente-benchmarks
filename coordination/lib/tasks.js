@@ -163,16 +163,72 @@ const SPECGAP = {
   },
 };
 
-const TASKS = { controlled: CONTROLLED, contended: CONTENDED, contended10: CONTENDED10, specgap: SPECGAP };
+// MIXED: the realistic case (~70/30). Every agent adds a command (ADDITIVE, commutative:
+// HANDLERS entry + a route() branch). TWO agents ALSO each add a guard check to the ONE
+// shared _validate() function (SHARED-LOGIC, genuinely overlapping: same function, both
+// must survive). This is where no-coordination LOSES work (the second writer clobbers the
+// first's _validate edit) and worktrees pay a REAL merge conflict (not an N-1 artifact),
+// while Regente unions the additive majority under merge-claims and orders the _validate
+// rewrite under an exclusive symbol claim so the second writer re-reads the first's result.
+// Two INDEPENDENT guards (each detectable on its own by the grader): a non-negative check
+// and a magnitude check. Neither rejects any of the small, non-negative command inputs.
+const V_NONNEG = "if a < 0 or b < 0: return False";
+const V_RANGE = "if a > 1000 or b > 1000: return False";
+const MIXED = {
+  id: "mixed-dispatch",
+  template: path.join(__dirname, "..", "task", "mixed"),
+  testCmd: ["python3", "test.py"],
+  sharedFiles: ["mathkit/dispatch.py"],
+  subtasks: [
+    { name: "add", op: "a + b", validate: V_NONNEG },
+    { name: "sub", op: "a - b", validate: V_RANGE },
+    { name: "mul", op: "a * b" },
+    { name: "floordiv", op: "a // b" },
+    { name: "mod", op: "a % b" },
+    { name: "power", op: "a ** b" },
+  ],
+  body(sub, style) {
+    const lines = [
+      `Your work is in the ONE shared file mathkit/dispatch.py, which every agent is editing at the same time.`,
+      ``,
+      `PART A — add the command "${sub.name}" (it computes ${sub.op} of the two arguments a and b):`,
+      `- Add "${sub.name}" to the HANDLERS list (keep every existing entry).`,
+      `- Inside route(cmd, a, b), add a branch BEFORE the final raise:  elif cmd == "${sub.name}": return ${sub.op}`,
+    ];
+    if (sub.validate) {
+      lines.push(
+        ``,
+        `PART B — also harden the SHARED function _validate(a, b). Add this guard at the TOP of its body, on its own line, BEFORE the final "return True":`,
+        `      ${sub.validate}`,
+        `CRITICAL: _validate is edited by ANOTHER agent too. Keep any guard that is already there and ADD yours alongside it; never delete or overwrite the other guard.`,
+      );
+      if (style === "regente") {
+        lines.push(
+          `Because _validate is shared LOGIC (not an additive list), claim it EXCLUSIVELY before editing it: call claim_path with path "mathkit/dispatch.py", symbol "_validate", mode "write". If the result says you are queued/blocked, call check_handoffs every few seconds until it grants you "_validate" (do NOT edit _validate before you hold it). The moment you hold it, RE-READ _validate (it now contains the other contributor's guard), add YOUR guard on its own line keeping theirs, then release_claim the symbol "_validate".`,
+        );
+      }
+    }
+    lines.push(
+      ``,
+      `Keep every other command's HANDLERS entry and route() branch intact. After your edit, route() must still handle every command it did before, plus "${sub.name}".`,
+    );
+    return lines.join("\n");
+  },
+  resolverPrompt:
+    "This git repo is mid-merge with conflicts in mathkit/dispatch.py. Resolve ALL conflicts so that: (1) the HANDLERS list keeps EVERY command from BOTH sides, (2) route() keeps EVERY `elif cmd == ...` branch from BOTH sides, and (3) the _validate(a, b) function keeps EVERY guard check from BOTH sides (the type check AND the range check must both be present). Remove all conflict markers. Then run `git add -A`. Do not commit.",
+};
+
+const TASKS = { controlled: CONTROLLED, contended: CONTENDED, contended10: CONTENDED10, specgap: SPECGAP, mixed: MIXED };
 
 function preamble(style, agentName) {
   if (style === "regente") {
     return [
-      `You are the agent named "${agentName}". OTHER agents are editing this repository at the SAME time.`,
-      `Coordinate through Regente using a SHORT WRITE-LOCK so everyone stays fast:`,
+      `You are the agent named "${agentName}". OTHER agents are editing this repository at the SAME time, on the same shared working tree.`,
+      `Coordinate through Regente with a MERGE CLAIM. A merge claim is for an ADDITIVE shared region (a registry list, a route table, an export list): every agent is granted immediately and contributes in parallel, with no waiting and no merge step.`,
       `1. Call join_workspace once (agent "${agentName}", tool "claude-code").`,
-      `2. PREPARE FIRST, WITHOUT CLAIMING: read the file(s) and work out the EXACT edit you will make (the precise lines to add and where). Do ALL of this reading/thinking now — other agents are doing the same in parallel. Do NOT claim or edit yet.`,
-      `3. ONLY when your edit is fully planned: call claim_path for the file, IMMEDIATELY apply your edit, then call release_claim right away. Claim -> write -> release in quick succession; hold the lock for the shortest possible time. If the claim is queued, wait for the grant, then apply+release fast.`,
+      `2. Call claim_path with mode "merge" for the shared file you will edit (agent "${agentName}", the file path, mode "merge"). It is granted INSTANTLY even while other agents hold a merge claim on the same file — you never queue or wait.`,
+      `3. Edit the file: FIRST re-read its current contents (another agent may have just appended their entry), THEN append YOUR entry, keeping every existing entry and branch intact. Never rewrite or overwrite the whole file.`,
+      `4. Call release_claim for the file when you are done.`,
       ``,
     ].join("\n");
   }
